@@ -21,7 +21,7 @@ namespace MultiDirectoryParser
             this.lineReader = lineReader;
         }
 
-        public void AnalyzeAllFiles(SortedSet<FileDetails> allFiles)
+        public void AnalyzeAllFiles(IEnumerable<FileDetails> allFiles)
         {
             foreach (var file in allFiles)
             {
@@ -29,7 +29,7 @@ namespace MultiDirectoryParser
             }
         }
 
-        public void AnalyzeAllFilesAsync(SortedSet<FileDetails> allFiles)
+        public void AnalyzeAllFilesAsync(IEnumerable<FileDetails> allFiles)
         {
             Parallel.ForEach(allFiles, (currentFile) =>
             {

@@ -9,15 +9,10 @@ namespace MultiDirectoryParser
 
     class MultiDirectoryParser
     {
-        static void Main(string[] args)
+        public static IEnumerable<FileDetails> ParseDirectories(string rootDirectory, List<string> excludeDirs)
         {
-            var rootDirectory = @"c:\test-data";
-
-            ILogger log = new Logger(rootDirectory);
-            ILineReader lineReader = new LineReader();
-
-            var excludeDirs = new List<string>() { "Dimitri" };
             var fileList = new SortedSet<FileDetails>();
+
             try
             {
                 var dir_info = new DirectoryInfo(rootDirectory);
@@ -37,6 +32,20 @@ namespace MultiDirectoryParser
             {
                 Console.WriteLine(e.Message);
             }
+
+            return fileList;
+
+        }
+        static void Main(string[] args)
+        {
+            var rootDirectory = Directory.GetCurrentDirectory();
+
+            ILogger log = new Logger(rootDirectory);
+            ILineReader lineReader = new LineReader();
+
+            var excludeDirs = new List<string>() { "Dimitri" };
+            var fileList = ParseDirectories(rootDirectory, excludeDirs);
+
             FileAnalyser f = new FileAnalyser(log, lineReader);
             f.AnalyzeAllFiles(fileList);
             var summary = f.GetSummary();
