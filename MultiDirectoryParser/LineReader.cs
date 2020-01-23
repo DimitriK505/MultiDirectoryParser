@@ -7,7 +7,11 @@ namespace MultiDirectoryParser
 {
     public class LineReader : ILineReader
     {
-        public LineReader() { }
+        /// <summary>
+        /// Wrapper method
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public IEnumerable<string> GetLines(string filename)
         {
             return File.ReadLines(filename);

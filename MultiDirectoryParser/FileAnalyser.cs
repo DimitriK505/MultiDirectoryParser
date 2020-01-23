@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiDirectoryParser
 {
+    /// <summary>
+    /// FileAnalyser is responsible for parsing file contents
+    /// and storing statistics
+    /// </summary>
     public class FileAnalyser
     {
         private readonly ILogger logger;
@@ -15,12 +19,21 @@ namespace MultiDirectoryParser
         public int TotalEmptyLines { get; private set; }
         public int TotalDashLines { get; private set; }
 
+        /// <summary>
+        /// FileAnalyser constructor
+        /// </summary>
+        /// <param name="logger">ILogger instance</param>
+        /// <param name="lineReader">ILinerReader instance</param>
         public FileAnalyser(ILogger logger, ILineReader lineReader)
         {
             this.logger = logger;
             this.lineReader = lineReader;
         }
 
+        /// <summary>
+        /// Parses all files in serialized manner
+        /// </summary>
+        /// <param name="allFiles"></param>
         public void AnalyzeAllFiles(IEnumerable<FileDetails> allFiles)
         {
             foreach (var file in allFiles)
@@ -29,6 +42,10 @@ namespace MultiDirectoryParser
             }
         }
 
+        /// <summary>
+        /// Parses all files using thread parallelization 
+        /// </summary>
+        /// <param name="allFiles"></param>
         public void AnalyzeAllFilesAsync(IEnumerable<FileDetails> allFiles)
         {
             Parallel.ForEach(allFiles, (currentFile) =>
@@ -37,6 +54,10 @@ namespace MultiDirectoryParser
             });
         }
 
+        /// <summary>
+        /// Counts the lines dash lines and empty lines
+        /// </summary>
+        /// <param name="data">The XYZ file</param>
         public void AnalyzeLines(object data)
         {
             FileDetails currentFile = (FileDetails)data;
@@ -54,7 +75,7 @@ namespace MultiDirectoryParser
                     currentFile.NumberOfEmptyLines++;
                 }
             }
-            Console.WriteLine(currentFile);
+
             logger.Log(currentFile.ToString());
             TotalLines += currentFile.NumberOfLines;
             TotalEmptyLines += currentFile.NumberOfEmptyLines;

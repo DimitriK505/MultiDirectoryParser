@@ -5,6 +5,9 @@ using System.Text;
 
 namespace MultiDirectoryParser
 {
+    /// <summary>
+    /// Data class for the file details
+    /// </summary>
     public class FileDetails : IComparable<FileDetails>
     {
         public string FileName { get; private set; }
